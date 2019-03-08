@@ -1,0 +1,29 @@
+version: '2'
+services:
+  tm3:
+    image: tm3
+    environment:
+      - TM_ENV=${TM_ENV}
+      - TM_CONSUMER_KEY=${TM_CONSUMER_KEY}
+      - TM_CONSUMER_SECRET=${TM_CONSUMER_SECRET}
+      - TM_SECRET=${TM_SECRET}
+    depends_on: 
+      - postgres
+    expose:
+      - "5000"
+    ports:
+      - "5000:5000"
+    links:
+      - postgres
+  postgres:
+    image: mdillon/postgis:9.6
+    environment:
+      - POSTGRES_USER=hottm
+      - POSTGRES_PASSWORD=hottm
+      - POSTGRES_DB=tasking-manager
+    expose:
+      - "5432"
+    logging:
+      driver: none
+    volumes:
+      - ${PG_DATA}:/var/lib/postgresql/data
